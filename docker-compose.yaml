@@ -1,0 +1,22 @@
+# Found this helpful example for using docker-compose to run a multi-container
+# docker application with one container for flask and one for mysql
+# https://www.devopsroles.com/deploy-flask-mysql-app-with-docker-compose/
+# and this article as well (pretty much the same article):
+# https://stavshamir.github.io/python/dockerizing-a-flask-mysql-app-with-docker-compose/
+
+version: "2"
+services:
+  app:
+    build: ./app
+    links:
+      - db
+    ports:
+      - "5000:5000"
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "testing"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
